@@ -1,0 +1,237 @@
+public void bg_dtg()
+        {
+            try
+            {
+
+                for (int i = 0; i <= dataGridFAQ.Rows.Count; i++)
+                {
+                    if (IsOdd(i))
+                    {
+
+                        dataGridFAQ.Rows[i].DefaultCellStyle.BackColor = Color.LightGray;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("" + ex);
+            }
+        }
+        public static bool IsOdd(int value)
+        {
+            return value % 2 != 0;
+        }
+ private void FAQPopUpWindow_Load(object sender, EventArgs e)
+        {
+            txtSearch.KeyPress += new KeyPressEventHandler(txtSearch_KeyPress);
+            dataGridFAQ.CellContentClick += new DataGridViewCellEventHandler(dataGridFAQ_CellContentClick);
+            dataGridFAQ.DataSource = Get_Data_From_Xml().Tables[0];
+            dataGridFAQ.Columns[0].Width = 420;
+            dataGridFAQ.Columns[1].Width = 450;
+            bg_dtg();
+            dataGridFAQ.ColumnHeadersVisible = false;
+            dataGridFAQ.RowHeadersVisible = false;
+            dataGridFAQ.RowTemplate.Height = 30;
+           
+        }
+
+ private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            DataView dv = Get_Data_From_Xml().Tables[0].DefaultView;
+            dv.RowFilter = string.Format("question like '%{0}%'", txtSearch.Text);
+            dataGridFAQ.DataSource = dv.ToTable();
+            lblQuestion.Text = "";
+            lblAnswer.Text = "";
+           // bg_dtg();
+        }
+private void dataGridFAQ_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if(e.RowIndex>=0)
+            {
+                DataGridViewRow row = this.dataGridFAQ.Rows[e.RowIndex];
+                string Answer = row.Cells["answer"].Value.ToString();
+                string Question = row.Cells["question"].Value.ToString();
+                if ((Answer != null || Answer != "") && (Question != null || Question != ""))
+                {
+                    lblQuestion.Text = Question;
+                    lblAnswer.Text = Answer;
+                    Message = Answer;
+                   // lblHiddenAnswer.Text = Answer.ToString();
+
+                    
+                }
+
+            }
+        }
+
+
+// Designer 
+
+namespace windowsFormTest
+{
+    partial class FAQPopUpWindow
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtSearch = new System.Windows.Forms.TextBox();
+            this.dataGridFAQ = new System.Windows.Forms.DataGridView();
+            this.btnSend = new System.Windows.Forms.Button();
+            this.lblHiddenAnswer = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.lblQuestion = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblAnswer = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridFAQ)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.5F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 38);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(140, 16);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Enter the question :";
+            // 
+            // txtSearch
+            // 
+            this.txtSearch.Location = new System.Drawing.Point(158, 27);
+            this.txtSearch.Multiline = true;
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.Size = new System.Drawing.Size(435, 38);
+            this.txtSearch.TabIndex = 1;
+            // 
+            // dataGridFAQ
+            // 
+            this.dataGridFAQ.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dataGridFAQ.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dataGridFAQ.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridFAQ.Location = new System.Drawing.Point(15, 71);
+            this.dataGridFAQ.Name = "dataGridFAQ";
+            this.dataGridFAQ.ReadOnly = true;
+            this.dataGridFAQ.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.dataGridFAQ.RowHeadersVisible = false;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridFAQ.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridFAQ.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridFAQ.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridFAQ.Size = new System.Drawing.Size(761, 293);
+            this.dataGridFAQ.TabIndex = 2;
+            // 
+            // btnSend
+            // 
+            this.btnSend.Location = new System.Drawing.Point(650, 486);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(75, 23);
+            this.btnSend.TabIndex = 3;
+            this.btnSend.Text = "Send";
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
+            // lblHiddenAnswer
+            // 
+            this.lblHiddenAnswer.AutoSize = true;
+            this.lblHiddenAnswer.Location = new System.Drawing.Point(87, 486);
+            this.lblHiddenAnswer.Name = "lblHiddenAnswer";
+            this.lblHiddenAnswer.Size = new System.Drawing.Size(0, 13);
+            this.lblHiddenAnswer.TabIndex = 4;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(28, 412);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(65, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Question :";
+            // 
+            // lblQuestion
+            // 
+            this.lblQuestion.AutoSize = true;
+            this.lblQuestion.Location = new System.Drawing.Point(93, 412);
+            this.lblQuestion.Name = "lblQuestion";
+            this.lblQuestion.Size = new System.Drawing.Size(0, 13);
+            this.lblQuestion.TabIndex = 6;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(28, 471);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Answer :";
+            // 
+            // lblAnswer
+            // 
+            this.lblAnswer.AutoSize = true;
+            this.lblAnswer.Location = new System.Drawing.Point(96, 471);
+            this.lblAnswer.Name = "lblAnswer";
+            this.lblAnswer.Size = new System.Drawing.Size(0, 13);
+            this.lblAnswer.TabIndex = 8;
+            // 
+            // FAQPopUpWindow
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(814, 530);
+            this.Controls.Add(this.lblAnswer);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblQuestion);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblHiddenAnswer);
+            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.dataGridFAQ);
+            this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.label1);
+            this.Name = "FAQPopUpWindow";
+            this.Text = "FAQPopUpWindow";
+            this.Load += new System.EventHandler(this.FAQPopUpWindow_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridFAQ)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.DataGridView dataGridFAQ;
+        private System.Windows.Forms.Button btnSend;
+        private System.Windows.Forms.Label lblHiddenAnswer;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblQuestion;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblAnswer;
+    }
+}
